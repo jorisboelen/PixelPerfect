@@ -64,3 +64,7 @@ jobs:
                   docker build --pull -t "${{ vars.DOCKERHUB_NAMESPACE }}/${{ vars.DOCKERHUB_REPOSITORY }}:${{ github.sha }}" .
                   docker push "${{ vars.DOCKERHUB_NAMESPACE }}/${{ vars.DOCKERHUB_REPOSITORY }}:${{ github.sha }}"
               if: github.ref_type == 'branch'
+            - run: |
+                  docker build --pull -t "${{ vars.DOCKERHUB_NAMESPACE }}/${{ vars.DOCKERHUB_REPOSITORY }}:${{ github.ref_name }}" .
+                  docker push "${{ vars.DOCKERHUB_NAMESPACE }}/${{ vars.DOCKERHUB_REPOSITORY }}:${{ github.ref_name }}"
+              if: github.ref_type == 'tag'
