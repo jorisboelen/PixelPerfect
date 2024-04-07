@@ -7,7 +7,7 @@ ENV BASE_DIRECTORY=/pixelperfect/data
 WORKDIR /pixelperfect
 
 # install pip package
-COPY backend/dist/*.tar.gz .
+COPY pixelperfect-*.tar.gz .
 RUN pip install --no-cache-dir pixelperfect-*.tar.gz
 
 # copy entrypoint script
