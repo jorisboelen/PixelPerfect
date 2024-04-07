@@ -1,0 +1,4 @@
+include requirements.txt
+include pixelperfect/alembic.ini
+recursive-include pixelperfect/alembic *
+recursive-include pixelperfect/static *

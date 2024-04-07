@@ -1,0 +1,114 @@
+<app-navbar [hidden]="inCarousel" (openAddDialogEvent)="openPhotoUploadModal()"></app-navbar>
+<main>
+  <div class="album py-5 bg-dark" [hidden]="inCarousel">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col" *ngFor="let photo of photo_list">
+          <div class="card text-bg-dark clickable" (click)="openCarousel(photo)">
+            <img [src]="photo_image_thumbnail_list[photo.id]" class="card-img" alt="{{ photo.name }}">
+            <div class="card-img-overlay">
+              <h5 class="card-title text-border">{{ photo.name }}</h5>
+            </div>
+          </div>
+          <div class="btn-group float-end" role="group" [hidden]="!isAdminUser()">
+            <button class="btn btn-dark" (click)="setAlbumCover(photo)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+              </svg>
+            </button>
+            <button class="btn btn-dark" (click)="openPhotoDeleteModal(photo)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [hidden]="!inCarousel">
+    <ngb-carousel *ngIf="photo_image_list" #carousel [showNavigationIndicators]="false">
+      <ng-template ngbSlide *ngFor="let photo of photo_list" [id]="photo.id.toString()">
+        <div class="picsum-img-wrapper clickable" (click)="openDetailsPanel(content, photo)">
+          <img [src]="photo_image_list[photo.id]" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
+        </div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
+</main>
+
+<ng-template #content let-offcanvas>
+	<div class="offcanvas-header">
+    <div class="btn-group" role="group">
+      <a class="btn btn-large btn-dark" routerLink="" (click)="offcanvas.dismiss('Cross click')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+          <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+        </svg>
+      </a>
+      <button type="button" class="btn btn-large btn-dark" (click)="closeCarousel()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewBox="0 0 16 16">
+          <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+        </svg>
+      </button>
+    </div>
+		<button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+	</div>
+	<div class="offcanvas-body" *ngIf="photo_selected">
+    <table class="table table-sm table-dark table-borderless">
+      <tbody>
+      <tr>
+        <th>Name</th>
+        <td class="text-truncate">{{ photo_selected.name }}</td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td class="text-truncate">{{ photo_selected.date_taken | date : 'medium' }}</td>
+      </tr>
+      <tr>
+        <th>Image Type</th>
+        <td class="text-truncate">{{ photo_selected.format }}</td>
+      </tr>
+      <tr>
+        <th>Resolution</th>
+        <td class="text-truncate">{{ photo_selected.width }} x {{ photo_selected.height }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-sm table-dark table-borderless">
+      <tbody>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'make')">
+        <th>Camera</th>
+        <td class="text-truncate">{{ getValueFromExifData(photo_selected.exif_data, 'make') }} {{ getValueFromExifData(photo_selected.exif_data, 'model') }}</td>
+      </tr>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'lens_model')">
+        <th>Lens</th>
+        <td class="text-truncate">{{ getValueFromExifData(photo_selected.exif_data, 'lens_model') }}</td>
+      </tr>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'exposure_time')">
+        <th>Exposure</th>
+        <td class="text-truncate">{{ convertExposureTime(getValueFromExifData(photo_selected.exif_data, 'exposure_time')) }}</td>
+      </tr>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'f_number')">
+        <th>Aperture</th>
+        <td class="text-truncate">f/{{ getValueFromExifData(photo_selected.exif_data, 'f_number') }}</td>
+      </tr>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'photographic_sensitivity')">
+        <th>ISO</th>
+        <td class="text-truncate">{{ getValueFromExifData(photo_selected.exif_data, 'photographic_sensitivity') }}</td>
+      </tr>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'focal_length')">
+        <th>Focal Length</th>
+        <td class="text-truncate">{{ getValueFromExifData(photo_selected.exif_data, 'focal_length') }} mm</td>
+      </tr>
+      <tr *ngIf="getValueFromExifData(photo_selected.exif_data, 'software')">
+        <th>Software</th>
+        <td class="text-truncate">{{ getValueFromExifData(photo_selected.exif_data, 'software') }}</td>
+      </tr>
+      </tbody>
+    </table>
+	</div>
+</ng-template>

@@ -1,0 +1,10 @@
+<form (ngSubmit)="activeModal.close()">
+  <div class="modal-header">
+    <h4 class="modal-title text-truncate" id="modal-basic-title">Upload Photos</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+  </div>
+  <div class="modal-body" ngbAutofocus>
+    <input [ngClass]="upload_error ? 'form-control is-invalid' : 'form-control'" type="file" id="formFileMultiple" accept="image/*" (change)="upload($event)" multiple>
+    <div *ngIf="upload_error" class="invalid-feedback">{{ upload_error }}</div>
+  </div>
+</form>
