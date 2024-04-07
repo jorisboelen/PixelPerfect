@@ -20,3 +20,9 @@ jobs:
             - run: npm install -g @angular/cli
             - run: npm install
             - run: ng build
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: frontend
+                  path: dist/pixelperfect/browser/
+                  if-no-files-found: error
+                  overwrite: true
