@@ -23,6 +23,6 @@ jobs:
             - uses: actions/upload-artifact@v4
               with:
                   name: frontend
-                  path: dist/pixelperfect/browser/
+                  path: dist/
                   if-no-files-found: error
                   overwrite: true
