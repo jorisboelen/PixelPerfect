@@ -1,8 +1,8 @@
 # ![PixelPerfect](frontend/src/assets/favicon-32x32.png "PixelPerfect") PixelPerfect
-![GitHub Release](https://img.shields.io/github/v/release/jboelen/PixelPerfect?logo=github)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/jboelen/PixelPerfect/total?logo=github)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jboelen/PixelPerfect/build-package-publish.yml?branch=main&logo=github)
-![GitHub License](https://img.shields.io/github/license/jboelen/PixelPerfect)
+![GitHub Release](https://img.shields.io/github/v/release/jorisboelen/PixelPerfect?logo=github)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/jorisboelen/PixelPerfect/total?logo=github)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jorisboelen/PixelPerfect/build-package-publish.yml?logo=github)
+![GitHub License](https://img.shields.io/github/license/jorisboelen/PixelPerfect)
 ![Docker Image Version](https://img.shields.io/docker/v/jboelen/pixelperfect?sort=semver&logo=docker)
 
 **PixelPerfect** is a free web-based photo-management solution, featuring:
