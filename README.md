@@ -23,7 +23,7 @@ docker run -d \
 -p 8000:8000 \
 jboelen/pixelperfect
 ```
-By default, the webinterface is available on https://localhost:8000. Login with username: `admin`
+By default, the webinterface is available on http://localhost:8000. Login with username: `admin`
 password: `pixelperfect` (or username: `viewer` password: `pixelperfect`).
 
 ### Configuration Settings
