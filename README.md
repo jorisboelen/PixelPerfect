@@ -1,9 +1,9 @@
 # ![PixelPerfect](frontend/src/assets/favicon-32x32.png "PixelPerfect") PixelPerfect
-![GitHub Release](https://img.shields.io/github/v/release/jorisboelen/PixelPerfect?logo=github)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/jorisboelen/PixelPerfect/total?logo=github)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jorisboelen/PixelPerfect/build-package-publish.yml?logo=github)
-![GitHub License](https://img.shields.io/github/license/jorisboelen/PixelPerfect)
-![Docker Image Version](https://img.shields.io/docker/v/jboelen/pixelperfect?sort=semver&logo=docker)
+[![GitHub Release](https://img.shields.io/github/v/release/jorisboelen/PixelPerfect?logo=github)](https://github.com/jorisboelen/PixelPerfect/releases/latest)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/jorisboelen/PixelPerfect/total?logo=github)](https://github.com/jorisboelen/PixelPerfect/releases)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jorisboelen/PixelPerfect/build-package-publish.yml?logo=github)](https://github.com/jorisboelen/PixelPerfect/actions)
+[![GitHub License](https://img.shields.io/github/license/jorisboelen/PixelPerfect)](https://github.com/jorisboelen/PixelPerfect/blob/main/LICENSE)
+[![Docker Image Version](https://img.shields.io/docker/v/jboelen/pixelperfect?sort=semver&logo=docker)](https://hub.docker.com/r/jboelen/pixelperfect)
 
 **PixelPerfect** is a free web-based photo-management solution, featuring:
 * Responsive [Angular] webinterface
@@ -53,7 +53,7 @@ and want to extend the feature set it's probably better to fork the project.
 
 [Angular]: https://angular.io/
 [CORS]: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-[Docker Hub]: https://hub.docker.com/repository/docker/jboelen/pixelperfect
+[Docker Hub]: https://hub.docker.com/r/jboelen/pixelperfect
 [Exif]: https://en.wikipedia.org/wiki/Exif
 [FastAPI]: https://fastapi.tiangolo.com/
 [Lychee]: https://github.com/LycheeOrg/Lychee
