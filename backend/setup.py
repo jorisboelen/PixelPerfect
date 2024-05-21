@@ -5,7 +5,7 @@ with open('requirements.txt') as requirements_file:
 
 setup(
     name='pixelperfect',
-    version='0.0.2',
+    version='0.0.3',
     python_requires='>=3.10',
     install_requires=requirements,
     include_package_data=True,
