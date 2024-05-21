@@ -12,7 +12,7 @@ import { AlbumModel, UserLoginModel } from '../models';
   providedIn: 'root'
 })
 export class PixelPerfectService {
-  private apiBaseUrl = environment.mixmatchApiBaseUrl;
+  private apiBaseUrl = environment.pixelperfectApiBaseUrl;
   private current_user?: User;
 
   constructor(private http: HttpClient, private notification: NotificationService, private router: Router) { }

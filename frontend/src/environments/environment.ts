@@ -1,3 +1,3 @@
 export const environment = {
-  mixmatchApiBaseUrl: '/api'
+  pixelperfectApiBaseUrl: '/api'
 };
