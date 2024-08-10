@@ -35,6 +35,6 @@ commit = false
 tag = false
 
 [[tool.bumpversion.files]]
-filename = "setup.py"
+filename = "pixelperfect/__init__.py"
 search = "__version__ = '{current_version}'"
 replace = "__version__ = '{new_version}'"
