@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pixelperfect"
-version = "0.0.5"
+version = "0.0.6"
 requires-python = ">= 3.10"
 dependencies = [
     "alembic==1.13.2",
@@ -30,9 +30,9 @@ pixelperfect = "pixelperfect.__main__:main"
 include = ["pixelperfect", "pixelperfect.*"]
 
 [tool.bumpversion]
-current_version = "0.0.5"
-commit = false
-tag = false
+current_version = "0.0.6"
+commit = true
+tag = true
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
