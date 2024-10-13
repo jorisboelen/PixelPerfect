@@ -7,21 +7,21 @@ name = "pixelperfect"
 version = "0.0.6"
 requires-python = ">= 3.10"
 dependencies = [
-    "alembic==1.13.2",
+    "alembic==1.13.3",
     "argon2-cffi==23.1.0",
     "click==8.1.7",
     "exif==1.6.0",
-    "fastapi==0.111.1",
+    "fastapi==0.115.2",
     "pillow==10.4.0",
-    "pydantic-settings==2.4.0",
-    "python-multipart==0.0.9",
-    "uvicorn[standard]==0.30.3",
-    "SQLAlchemy==2.0.31",
-    "sqlmodel==0.0.21",
+    "pydantic-settings==2.5.2",
+    "python-multipart==0.0.12",
+    "uvicorn[standard]==0.31.1",
+    "SQLAlchemy==2.0.35",
+    "sqlmodel==0.0.22",
 ]
 
 [project.optional-dependencies]
-dev = ["bump-my-version==0.18.3"]
+dev = ["bump-my-version==0.27.0"]
 
 [project.scripts]
 pixelperfect = "pixelperfect.__main__:main"
