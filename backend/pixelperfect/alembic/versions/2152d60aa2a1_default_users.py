@@ -6,6 +6,7 @@ Create Date: 2024-03-26 11:19:20.093271
 
 """
 from argon2 import PasswordHasher
+from os import environ
 from pixelperfect.db.models import User
 from typing import Sequence, Union
 
@@ -24,12 +25,12 @@ def upgrade() -> None:
     op.bulk_insert(User.__table__, [
         {
             'username': 'admin',
-            'password': PasswordHasher().hash('pixelperfect'),
+            'password': PasswordHasher().hash(environ.get('INITIAL_PASSWORD_ADMIN', 'pixelperfect')),
             'is_admin': 1
         },
         {
             'username': 'viewer',
-            'password': PasswordHasher().hash('pixelperfect'),
+            'password': PasswordHasher().hash(environ.get('INITIAL_PASSWORD_VIEWER', 'pixelperfect')),
             'is_admin': 0
         }
     ])
