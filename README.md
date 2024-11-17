@@ -34,8 +34,8 @@ Configuration settings can be set either as environment variables or using a `.e
 |--------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | CORS_ALLOWED_ORIGINS     | `[]`              | List of [CORS] origins to allow                                                                                                                                          |
 | IMAGE_RESIZE_SIZES       | `[1920]`          | List of image resolutions for which resized versions of uploaded images should be created. `1920` means a maximum resolution of `1920x1920`, preserving the aspect ratio |
-| INITIAL_PASSWORD_ADMIN   | `pixelperfect`    | Initial password for the `admin` password.                                                                                                                               |
-| INITIAL_PASSWORD_VIEWER  | `pixelperfect`    | Initial password for the `viewer` password.                                                                                                                              |
+| INITIAL_PASSWORD_ADMIN   | `pixelperfect`    | Initial password for the `admin` user.                                                                                                                                   |
+| INITIAL_PASSWORD_VIEWER  | `pixelperfect`    | Initial password for the `viewer` user.                                                                                                                                  |
 | SESSION_EXPIRE_SECONDS   | `86400` (1 day)   | Maximum duration of a login sessions                                                                                                                                     |
 | SQLALCHEMY_DATABASE_FILE | `pixelperfect.db` | Filename of the SQLite database                                                                                                                                          |
 
