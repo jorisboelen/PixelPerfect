@@ -7,8 +7,8 @@ ENV BASE_DIRECTORY=/pixelperfect/data
 WORKDIR /pixelperfect
 
 # install pip package
-COPY pixelperfect-*.tar.gz .
-RUN pip install --no-cache-dir pixelperfect-*.tar.gz[all]
+COPY pixelperfect-*.tar.gz pixelperfect.tar.gz
+RUN pip install --no-cache-dir pixelperfect.tar.gz[all]
 
 # copy entrypoint script
 copy docker/entrypoint.sh .
