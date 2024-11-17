@@ -8,7 +8,7 @@ WORKDIR /pixelperfect
 
 # install pip package
 COPY pixelperfect-*.tar.gz .
-RUN pip install --no-cache-dir pixelperfect-*.tar.gz
+RUN pip install --no-cache-dir pixelperfect-*.tar.gz[all]
 
 # copy entrypoint script
 copy docker/entrypoint.sh .
