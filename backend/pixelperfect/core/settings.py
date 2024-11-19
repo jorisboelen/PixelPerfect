@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     DATABASE_DB: str = 'pixelperfect'
     DATABASE_USER: str = 'pixelperfect'
     DATABASE_PASSWORD: str | None = None
+    DATABASE_PARAMETERS: str | None = None
 
     @computed_field
     @property
@@ -28,7 +29,8 @@ class Settings(BaseSettings):
             return MultiHostUrl.build(
                 scheme=self.DATABASE_SCHEME,
                 host="",
-                path=path.join(self.BASE_DIRECTORY, self.DATABASE_FILE)
+                path=path.join(self.BASE_DIRECTORY, self.DATABASE_FILE),
+                query=self.DATABASE_PARAMETERS
             )
         else:
             return MultiHostUrl.build(
@@ -37,7 +39,8 @@ class Settings(BaseSettings):
                 password=self.DATABASE_PASSWORD,
                 host=self.DATABASE_HOST,
                 port=self.DATABASE_PORT,
-                path=self.DATABASE_DB
+                path=self.DATABASE_DB,
+                query=self.DATABASE_PARAMETERS
             )
 
 
