@@ -26,7 +26,6 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('date_created', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('cover_photo_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['cover_photo_id'], ['photos.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_albums_date_created'), 'albums', ['date_created'], unique=False)
@@ -46,6 +45,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['album_id'], ['albums.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    with op.batch_alter_table("albums") as batch_op:
+        batch_op.create_foreign_key("FK_albums_photos", local_cols=['cover_photo_id'], referent_table='photos', remote_cols=['id'])
     op.create_index(op.f('ix_photos_date_created'), 'photos', ['date_created'], unique=False)
     op.create_index(op.f('ix_photos_date_taken'), 'photos', ['date_taken'], unique=False)
     op.create_index(op.f('ix_photos_name'), 'photos', ['name'], unique=False)

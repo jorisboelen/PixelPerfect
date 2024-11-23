@@ -1,13 +1,12 @@
-from os import path
+from pixelperfect.core.settings import settings
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlmodel import Session
 
-from pixelperfect.core.settings import settings
+database_url = str(settings.sqlalchemy_database_url)
+database_connect_args = {"check_same_thread": False} if settings.DATABASE_SCHEME == 'sqlite' else {}
 
-SQLALCHEMY_URL = f"sqlite:///{path.join(settings.BASE_DIRECTORY, settings.SQLALCHEMY_DATABASE_FILE)}"
-
-engine = create_engine(SQLALCHEMY_URL, connect_args={"check_same_thread": False}, pool_size=100, max_overflow=30)
+engine = create_engine(url=database_url, connect_args=database_connect_args, pool_size=100, max_overflow=30)
 
 Base = declarative_base()
 

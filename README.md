@@ -34,12 +34,30 @@ Configuration settings can be set either as environment variables or using a `.e
 |--------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | CORS_ALLOWED_ORIGINS     | `[]`              | List of [CORS] origins to allow                                                                                                                                          |
 | IMAGE_RESIZE_SIZES       | `[1920]`          | List of image resolutions for which resized versions of uploaded images should be created. `1920` means a maximum resolution of `1920x1920`, preserving the aspect ratio |
-| INITIAL_PASSWORD_ADMIN   | `pixelperfect`    | Initial password for the `admin` password.                                                                                                                               |
-| INITIAL_PASSWORD_VIEWER  | `pixelperfect`    | Initial password for the `viewer` password.                                                                                                                              |
+| INITIAL_PASSWORD_ADMIN   | `pixelperfect`    | Initial password for the `admin` user.                                                                                                                                   |
+| INITIAL_PASSWORD_VIEWER  | `pixelperfect`    | Initial password for the `viewer` user.                                                                                                                                  |
 | SESSION_EXPIRE_SECONDS   | `86400` (1 day)   | Maximum duration of a login sessions                                                                                                                                     |
-| SQLALCHEMY_DATABASE_FILE | `pixelperfect.db` | Filename of the SQLite database                                                                                                                                          |
 
-### Important: Reset Initial Password(s)
+By default, [SQLite] is configured as database with the following settings:
+
+| Setting         | Default Value     | Description                                     |
+|-----------------|-------------------|-------------------------------------------------|
+| DATABASE_SCHEME | `sqlite`          | Can be either `mysql`, `postgresql` or `sqlite` |
+| DATABASE_FILE   | `pixelperfect.db` | The filename of the SQLite database file        | 
+
+Alternatively, [MySQL] or [PostgreSQL] can be configured as well:
+
+| Setting             | Default Value  | Description                                                                                                                                  |
+|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| DATABASE_SCHEME     | `sqlite`       | Can be either `mysql`, `postgresql` or `sqlite`                                                                                              |
+| DATABASE_HOST       | `localhost`    | The hostname of the database server                                                                                                          |
+| DATABASE_PORT       | `n/a`          | The port of the database server, for example: `3306` or `5432`                                                                               |
+| DATABASE_DB         | `pixelperfect` | The name of the database                                                                                                                     |
+| DATABASE_USER       | `pixelperfect` | The username for connecting to the database server                                                                                           |
+| DATABASE_PASSWORD   | `n/a`          | The password for connecting to the database server                                                                                           |
+| DATABASE_PARAMETERS | `n/a`          | Additional parameters to add to the database connection url. For example to enable TLS/SSL: `ssl_ca=ca-certificate.pem` or `sslmode=require` |
+
+### Reset Initial Password(s)
 The initial password of the `admin` and `viewer` user can be reset from the commandline:
 
 ```shell
@@ -59,3 +77,6 @@ and want to extend the feature set it's probably better to fork the project.
 [Exif]: https://en.wikipedia.org/wiki/Exif
 [FastAPI]: https://fastapi.tiangolo.com/
 [Lychee]: https://github.com/LycheeOrg/Lychee
+[MySQL]: https://www.mysql.com/
+[PostgreSQL]: https://www.postgresql.org/
+[SQLite]: https://www.sqlite.org/

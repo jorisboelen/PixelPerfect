@@ -18,7 +18,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from pixelperfect.db.database import SQLALCHEMY_URL
+from pixelperfect.core.settings import settings
 from pixelperfect.db.models import *
 target_metadata = SQLModel.metadata
 
@@ -40,7 +40,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = SQLALCHEMY_URL
+    url = str(settings.sqlalchemy_database_url)
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -60,7 +60,7 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = SQLALCHEMY_URL
+    configuration["sqlalchemy.url"] = str(settings.sqlalchemy_database_url)
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",

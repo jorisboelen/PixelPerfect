@@ -21,7 +21,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+all = ["pixelperfect[mysql]", "pixelperfect[postgresql]"]
 dev = ["bump-my-version==0.27.0"]
+mysql = ["PyMySQL[rsa]==1.1.1"]
+postgresql = ["psycopg2-binary==2.9.10"]
 
 [project.scripts]
 pixelperfect = "pixelperfect.__main__:main"
