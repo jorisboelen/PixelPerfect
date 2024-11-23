@@ -37,14 +37,13 @@ Configuration settings can be set either as environment variables or using a `.e
 | INITIAL_PASSWORD_ADMIN   | `pixelperfect`    | Initial password for the `admin` user.                                                                                                                                   |
 | INITIAL_PASSWORD_VIEWER  | `pixelperfect`    | Initial password for the `viewer` user.                                                                                                                                  |
 | SESSION_EXPIRE_SECONDS   | `86400` (1 day)   | Maximum duration of a login sessions                                                                                                                                     |
-| SQLALCHEMY_DATABASE_FILE | `pixelperfect.db` | Filename of the SQLite database                                                                                                                                          |
 
 By default, [SQLite] is configured as database with the following settings:
 
-| Setting         | Default Value | Description                                     |
-|-----------------|---------------|-------------------------------------------------|
-| DATABASE_SCHEME | `sqlite`      | Can be either `mysql`, `postgresql` or `sqlite` |
-| DATABASE_FILE   | `[1920]`      | The filename of the SQLite database file        | 
+| Setting         | Default Value     | Description                                     |
+|-----------------|-------------------|-------------------------------------------------|
+| DATABASE_SCHEME | `sqlite`          | Can be either `mysql`, `postgresql` or `sqlite` |
+| DATABASE_FILE   | `pixelperfect.db` | The filename of the SQLite database file        | 
 
 Alternatively, [MySQL] or [PostgreSQL] can be configured as well:
 
@@ -58,7 +57,7 @@ Alternatively, [MySQL] or [PostgreSQL] can be configured as well:
 | DATABASE_PASSWORD   | `n/a`          | The password for connecting to the database server                                                                                           |
 | DATABASE_PARAMETERS | `n/a`          | Additional parameters to add to the database connection url. For example to enable TLS/SSL: `ssl_ca=ca-certificate.pem` or `sslmode=require` |
 
-### Important: Reset Initial Password(s)
+### Reset Initial Password(s)
 The initial password of the `admin` and `viewer` user can be reset from the commandline:
 
 ```shell
