@@ -3,6 +3,7 @@ name: VULNOW Test
 on:
     push:
         branches: [ 'test/vulnow' ]
+    workflow_dispatch:
 
 jobs:
     backend:
