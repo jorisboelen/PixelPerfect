@@ -55,3 +55,9 @@ jobs:
                       python /app/cicd_cli.py send-bom --api_url $VULNOW_ENDPOINT -f bom.json --bom_type sbom
                 env:
                     VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
+            -   uses: actions/upload-artifact@v4
+                with:
+                    name: bom
+                    path: bom.json
+                    if-no-files-found: error
+                    overwrite: true
