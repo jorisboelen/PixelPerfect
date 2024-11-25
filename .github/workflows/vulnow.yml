@@ -8,11 +8,12 @@ on:
 jobs:
     backend:
         runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: ./backend
+
         steps:
             - uses: actions/checkout@v4
+              with:
+                  sparse-checkout: |
+                      backend
             - name: "VULNOW :: Setup Variables"
               id: vars
               run: |
@@ -28,6 +29,7 @@ jobs:
                         echo "VULNOW_IMG=drakkars/vulnow:0.2" >> $GITHUB_ENV
             -   name: "VULNOW :: Get SBOM"
                 run: |
+                    cp backend/pyproject.toml .
                     docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
                       -e ORG=$ORG \
                       -e REPO=$REPO \
@@ -36,7 +38,7 @@ jobs:
                       -e GITHUB_BASE_REF \
                       -e GITHUB_REF_NAME \
                       -e GITHUB_REF \
-                      -v .:/repo --workdir /repo \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
                       $VULNOW_IMG \
                       python /app/cicd_cli.py get-sbom .
                 env:
@@ -53,7 +55,7 @@ jobs:
                       -e GITHUB_BASE_REF \
                       -e GITHUB_REF_NAME \
                       -e GITHUB_REF \
-                      -v .:/repo --workdir /repo \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
                       $VULNOW_IMG \
                       python /app/cicd_cli.py send-bom --api_url $VULNOW_ENDPOINT -f bom.json --bom_type sbom
                 env:
@@ -70,7 +72,7 @@ jobs:
                       -e GITHUB_BASE_REF \
                       -e GITHUB_REF_NAME \
                       -e GITHUB_REF \
-                      -v .:/repo --workdir /repo \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
                       $VULNOW_IMG \
                       python /app/cicd_cli.py ingest --api_url $VULNOW_ENDPOINT
                 env:
