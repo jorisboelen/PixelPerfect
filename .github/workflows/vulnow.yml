@@ -55,6 +55,23 @@ jobs:
                       python /app/cicd_cli.py send-bom --api_url $VULNOW_ENDPOINT -f bom.json --bom_type sbom
                 env:
                     VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
+
+            -   name: "VULNOW :: Ingest"
+                run: |
+                    docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
+                      -e ORG=$ORG \
+                      -e REPO=$REPO \
+                      -e OBOM_ARTIFACT_SHA=$OBOM_ARTIFACT_SHA \
+                      -e GITHUB_EVENT_NAME \
+                      -e GITHUB_HEAD_REF \
+                      -e GITHUB_BASE_REF \
+                      -e GITHUB_REF_NAME \
+                      -e GITHUB_REF \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
+                      $VULNOW_IMG \
+                      python /app/cicd_cli.py ingest --api_url $VULNOW_ENDPOINT
+                env:
+                    VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
             -   uses: actions/upload-artifact@v4
                 with:
                     name: bom
