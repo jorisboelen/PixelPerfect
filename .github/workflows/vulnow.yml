@@ -26,7 +26,7 @@ jobs:
                         echo "REPO=$REPO" >> $GITHUB_ENV
                         echo "COMMITID=$COMMITID" >> $GITHUB_ENV
                         echo "VULNOW_ENDPOINT=https://customer1-1d131cf0.vulnow.io/api/dataingestion" >> $GITHUB_ENV
-                        echo "VULNOW_IMG=drakkars/vulnow:0.2" >> $GITHUB_ENV
+                        echo "VULNOW_IMG=drakkars/vulnow:0.3" >> $GITHUB_ENV
             -   name: "VULNOW :: Get SBOM"
                 run: |
                     cp backend/pyproject.toml .
