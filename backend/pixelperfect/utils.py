@@ -1,4 +1,5 @@
 import logging
+from cloudpathlib import S3Path
 from datetime import datetime
 from exif import Image as ExifImage
 from fastapi import UploadFile
@@ -17,6 +18,11 @@ from pixelperfect.core.settings import settings
 from pixelperfect.db import crud
 from pixelperfect.db.models import Photo
 
+try:
+    import boto3
+except ImportError:
+    boto3 = None
+
 logger = logging.getLogger(__name__)
 
 
@@ -33,6 +39,15 @@ def smart_makedirs(directory_path: str, exist_ok: bool=True):
         pass
     else:
         makedirs(directory_path, exist_ok=exist_ok)
+
+
+def smart_remove(file_path: str):
+    if smart_exists(file_path):
+        if file_path.startswith('s3://'):
+            s3_path = S3Path(file_path)
+            boto3.resource('s3').Object(s3_path.bucket, s3_path.key).delete()
+        else:
+            remove(file_path)
 
 
 def get_exif_data(file: BinaryIO) -> dict:
@@ -98,13 +113,10 @@ def process_photo_upload(db: Session, album_id: int, name: str, file_path: str):
 
 
 def remove_photo_upload(file_name: str):
-    def remove_photo_file(file_path: str):
-        if exists(file_path):
-            remove(file_path)
-    remove_photo_file(join(settings.IMAGE_DIRECTORY, file_name))
-    remove_photo_file(join(settings.IMAGE_THUMBNAIL_DIRECTORY, file_name))
+    smart_remove(join(settings.IMAGE_DIRECTORY, file_name))
+    smart_remove(join(settings.IMAGE_THUMBNAIL_DIRECTORY, file_name))
     for size in settings.IMAGE_RESIZE_SIZES:
-        remove_photo_file(join(join(settings.IMAGE_DIRECTORY, str(size)), file_name))
+        smart_remove(join(join(settings.IMAGE_DIRECTORY, str(size)), file_name))
 
 
 def get_photo_image_path(file_name: str, size: str):
