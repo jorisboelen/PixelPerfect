@@ -115,7 +115,7 @@ def process_photo_upload(db: Session, album_id: int, name: str, file_path: str):
 
 def remove_photo_upload(file_name: str):
     smart_remove(join(settings.IMAGE_DIRECTORY, file_name))
-    smart_remove(join(settings.IMAGE_THUMBNAIL_DIRECTORY, file_name))
+    smart_remove(join(join(settings.IMAGE_DIRECTORY, 'thumbnails'), file_name))
     for size in settings.IMAGE_RESIZE_SIZES:
         smart_remove(join(join(settings.IMAGE_DIRECTORY, str(size)), file_name))
 
@@ -123,7 +123,7 @@ def remove_photo_upload(file_name: str):
 def get_photo_image_path(file_name: str, size: str):
     file_path = join(settings.IMAGE_DIRECTORY, file_name)
     if size and size == 'thumbnail':
-        thumbnail_file_path = join(settings.IMAGE_THUMBNAIL_DIRECTORY, file_name)
+        thumbnail_file_path = (join(join(settings.IMAGE_DIRECTORY, 'thumbnails'), file_name))
         if not smart_exists(thumbnail_file_path):
             with smart_open(file_path, mode='rb') as f:
                 image = Image.open(f)
