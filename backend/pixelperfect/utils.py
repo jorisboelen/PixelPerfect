@@ -5,7 +5,7 @@ from exif import Image as ExifImage
 from fastapi import UploadFile
 from json import dumps
 from os import makedirs, remove
-from os.path import basename, exists, join, splitext
+from os.path import basename, join, splitext
 from PIL import Image
 from plum.exceptions import UnpackError
 from shutil import copyfileobj
@@ -87,8 +87,9 @@ def save_photo_thumbnail(image: Image, image_format: str, file_name: str, size: 
         return crop_center(image, min(image.size), min(image.size))
 
     image_thumbnail = crop_max_square(image).resize((size, size), Image.LANCZOS)
-    smart_makedirs(settings.IMAGE_THUMBNAIL_DIRECTORY, exist_ok=True)
-    with smart_open(join(settings.IMAGE_THUMBNAIL_DIRECTORY, file_name), "wb") as f:
+    image_thumbnail_directory = join(settings.IMAGE_DIRECTORY, 'thumbnails')
+    smart_makedirs(image_thumbnail_directory, exist_ok=True)
+    with smart_open(join(image_thumbnail_directory, file_name), "wb") as f:
         image_thumbnail.save(f, format=image_format, exif=image.getexif(), quality=95)
 
 
