@@ -2,6 +2,7 @@ FROM python:3.11
 
 # set environment variables
 ENV BASE_DIRECTORY=/pixelperfect/data
+ENV IMAGE_DIRECTORY=/pixelperfect/data/images
 
 # set work directory
 WORKDIR /pixelperfect
