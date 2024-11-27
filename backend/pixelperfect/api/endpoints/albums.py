@@ -70,6 +70,6 @@ def upload_album_photos(album_id: int, files: list[UploadFile], background_tasks
     if not album:
         raise HTTPException(status_code=404, detail="Album not found")
     for file in files:
-        file_name = save_photo_upload(file)
-        background_tasks.add_task(process_photo_upload, db, album_id, file.filename, file_name)
+        file_path = save_photo_upload(file)
+        background_tasks.add_task(process_photo_upload, db, album_id, file.filename, file_path)
     return {"received": [file.filename for file in files]}

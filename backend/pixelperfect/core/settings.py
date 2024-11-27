@@ -8,6 +8,7 @@ from typing import List, Literal
 
 class Settings(BaseSettings):
     BASE_DIRECTORY: str = path.join(Path.home(), '.pixelperfect')
+    IMAGE_DIRECTORY: str = path.join(BASE_DIRECTORY, "images")
     CORS_ALLOWED_ORIGINS: List[str] = Field(default_factory=list)
     IMAGE_RESIZE_SIZES: List[int] = Field(default=[1920])
     SESSION_EXPIRE_SECONDS: int = 86400

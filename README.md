@@ -38,6 +38,7 @@ Configuration settings can be set either as environment variables or using a `.e
 | INITIAL_PASSWORD_VIEWER  | `pixelperfect`    | Initial password for the `viewer` user.                                                                                                                                  |
 | SESSION_EXPIRE_SECONDS   | `86400` (1 day)   | Maximum duration of a login sessions                                                                                                                                     |
 
+#### Database Settings
 By default, [SQLite] is configured as database with the following settings:
 
 | Setting         | Default Value     | Description                                     |
@@ -56,6 +57,21 @@ Alternatively, [MySQL] or [PostgreSQL] can be configured as well:
 | DATABASE_USER       | `pixelperfect` | The username for connecting to the database server                                                                                           |
 | DATABASE_PASSWORD   | `n/a`          | The password for connecting to the database server                                                                                           |
 | DATABASE_PARAMETERS | `n/a`          | Additional parameters to add to the database connection url. For example to enable TLS/SSL: `ssl_ca=ca-certificate.pem` or `sslmode=require` |
+
+#### Storage Settings
+By default, files are stored on the local filesystem. This includes the database (in case of SQLite) and media files:
+
+| Setting         | Default Value               | Description                                     |
+|-----------------|-----------------------------|-------------------------------------------------|
+| BASE_DIRECTORY  | `/pixelperfect/data`        | The base directory for storing persistent files |
+| IMAGE_DIRECTORY | `/pixelperfect/data/images` | The directory for storing image files           | 
+
+Alternatively, image files can also be stored in [S3]:
+
+| Setting         | Example Value                            | 
+|-----------------|------------------------------------------|
+| IMAGE_DIRECTORY | `s3://s3-bucket-name/optional-subfolder` | 
+
 
 ### Reset Initial Password(s)
 The initial password of the `admin` and `viewer` user can be reset from the commandline:
@@ -79,4 +95,5 @@ and want to extend the feature set it's probably better to fork the project.
 [Lychee]: https://github.com/LycheeOrg/Lychee
 [MySQL]: https://www.mysql.com/
 [PostgreSQL]: https://www.postgresql.org/
+[S3]: https://aws.amazon.com/s3/
 [SQLite]: https://www.sqlite.org/
