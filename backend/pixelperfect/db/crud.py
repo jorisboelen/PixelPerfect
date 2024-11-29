@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 
-from pixelperfect.db.models import Album, AlbumCreate, Photo, User
+from pixelperfect.db.models import Album, AlbumCreate, Photo, User, UserSession
 
 
 def get_album(db: Session, album_id: int):
@@ -71,3 +71,21 @@ def update_user_password(db: Session, db_user: User, hashed_password: str):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def get_user_session(db: Session, session_token: str):
+    return db.get(UserSession, session_token)
+
+
+def create_user_session(db: Session, user_session: UserSession):
+    db.add(user_session)
+    db.commit()
+    db.refresh(user_session)
+    return user_session
+
+
+def remove_user_session(db: Session, session_token: str):
+    user_session = db.get(UserSession, session_token)
+    if user_session:
+        db.delete(user_session)
+        db.commit()
