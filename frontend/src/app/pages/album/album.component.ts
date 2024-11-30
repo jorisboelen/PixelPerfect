@@ -52,7 +52,7 @@ export class AlbumComponent {
 	  this.inCarousel = false;
 	}
 
-	openPhotoUploadModal(): void {
+  openPhotoUploadModal(): void {
     const modal = this.modalService.open(ModalPhotoUploadComponent, {});
     modal.result.then(
       (result) => {this.uploadPhotos(result.target.files)},
@@ -123,7 +123,7 @@ export class AlbumComponent {
     this.pixelperfectService.updateAlbumCover(album_id, photo.id).subscribe();
   }
 
-  sharePhoto() {
+  sharePhoto(photo: Photo) {
     if (!this.shareService.canShare()) {
       alert(`This service/api is not supported in your Browser`);
       return;
@@ -131,8 +131,8 @@ export class AlbumComponent {
 //     this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
     this.shareService
     .share({
-        title: 'Web Fundamentals',
-        text: 'Check out Web Fundamentals — it rocks!',
+        title: 'Test',
+        text: 'bla ' + photo.id + ' ' + photo.name,
         url: 'https://developers.google.com/web'
       }).then( (response) => {
       console.log(response);
