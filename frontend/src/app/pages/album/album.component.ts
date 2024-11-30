@@ -123,8 +123,18 @@ export class AlbumComponent {
     this.pixelperfectService.updateAlbumCover(album_id, photo.id).subscribe();
   }
 
-  sharePhoto(photo: Photo) {
-    this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
+  sharePhoto() {
+    if (!this.shareService.canShare()) {
+      alert(`This service/api is not supported in your Browser`);
+      return;
+    }
+//     this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
+    this.shareService
+    .share({
+        title: 'Web Fundamentals',
+        text: 'Check out Web Fundamentals — it rocks!',
+        url: 'https://developers.google.com/web'
+      }).then( (response) => {
       console.log(response);
     })
     .catch( (error) => {
