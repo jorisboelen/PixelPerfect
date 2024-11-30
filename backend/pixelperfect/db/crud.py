@@ -1,11 +1,10 @@
 from sqlmodel import Session, select
 
-from pixelperfect.db.models import Album, AlbumCreate, Photo, User
+from pixelperfect.db.models import Album, AlbumCreate, Photo, User, UserSession
 
 
 def get_album(db: Session, album_id: int):
-    statement = select(Album).where(Album.id == album_id)
-    return db.exec(statement).first()
+    return db.get(Album, album_id)
 
 
 def get_album_photos(db: Session, album_id: int):
@@ -45,8 +44,7 @@ def remove_album(db: Session, album: Album):
 
 
 def get_photo(db: Session, photo_id: int):
-    statement = select(Photo).where(Photo.id == photo_id)
-    return db.exec(statement).first()
+    return db.get(Photo, photo_id)
 
 
 def create_photo(db: Session, photo: Photo):
@@ -62,8 +60,7 @@ def remove_photo(db: Session, photo: Photo):
 
 
 def get_user(db: Session, username: str):
-    statement = select(User).where(User.username == username)
-    return db.exec(statement).first()
+    return db.get(User, username)
 
 
 def update_user_password(db: Session, db_user: User, hashed_password: str):
@@ -71,3 +68,21 @@ def update_user_password(db: Session, db_user: User, hashed_password: str):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def get_user_session(db: Session, session_token: str):
+    return db.get(UserSession, session_token)
+
+
+def create_user_session(db: Session, user_session: UserSession):
+    db.add(user_session)
+    db.commit()
+    db.refresh(user_session)
+    return user_session
+
+
+def remove_user_session(db: Session, session_token: str):
+    user_session = db.get(UserSession, session_token)
+    if user_session:
+        db.delete(user_session)
+        db.commit()
