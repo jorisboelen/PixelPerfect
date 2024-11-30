@@ -128,6 +128,11 @@ export class AlbumComponent {
       alert(`This service/api is not supported in your Browser`);
       return;
     }
+
+    if (!this.shareService.canShareFile([this.photo_image_list[photo.id]])) {
+      alert(`This file is not supported for sharing in your Browser`);
+      return;
+    }
 //     this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
     this.shareService
     .share({
