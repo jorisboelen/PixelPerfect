@@ -4,6 +4,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbCarousel, NgbCarouselModule, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PixelPerfectService } from '../../services/pixelperfect.service';
+import { ShareService } from '../../services/share.service';
 import { ModalDeleteConfirmationComponent } from '../../components/modal-delete-confirmation/modal-delete-confirmation.component';
 import { ModalPhotoUploadComponent } from '../../components/modal-photo-upload/modal-photo-upload.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
@@ -27,7 +28,7 @@ export class AlbumComponent {
   @ViewChild('carousel', { static: false }) carousel!: NgbCarousel;
   private offcanvasService = inject(NgbOffcanvas);
 
-  constructor(private route: ActivatedRoute, private pixelperfectService: PixelPerfectService, private sanitizer: DomSanitizer, private modalService: NgbModal) {}
+  constructor(private route: ActivatedRoute, private pixelperfectService: PixelPerfectService, private shareService: ShareService, private sanitizer: DomSanitizer, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.getAlbum();
@@ -122,11 +123,24 @@ export class AlbumComponent {
     this.pixelperfectService.updateAlbumCover(album_id, photo.id).subscribe();
   }
 
+  sharePhoto(photo: Photo) {
+    this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
+      console.log(response);
+    })
+    .catch( (error) => {
+      console.log(error);
+    });
+  }
+
   deletePhoto(photo: Photo) {
     this.pixelperfectService.deletePhoto(photo.id).subscribe((photo) => this.getAlbumPhotos());
   }
 
   isAdminUser(): boolean {
     return this.pixelperfectService.isAdminUser();
+  }
+
+  canShare(): boolean {
+    return this.shareService.canShare();
   }
 }
