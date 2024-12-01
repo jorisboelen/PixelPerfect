@@ -136,13 +136,13 @@ export class AlbumComponent {
         return;
       }
     })
-//     this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
-    this.shareService
-    .share({
-        title: 'Test',
-        text: 'bla ' + photo.id + ' ' + photo.name,
-        url: 'https://developers.google.com/web'
-      }).then( (response) => {
+    this.shareService.share({files: [photo_file]}).then( (response) => {
+//     this.shareService
+//     .share({
+//         title: 'Test',
+//         text: 'bla ' + photo.id + ' ' + photo.name,
+//         url: 'https://developers.google.com/web'
+//       }).then( (response) => {
       console.log(response);
     })
     .catch( (error) => {
