@@ -3,12 +3,13 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbCarousel, NgbCarouselModule, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../../services/notification.service';
 import { PixelPerfectService } from '../../services/pixelperfect.service';
 import { ShareService } from '../../services/share.service';
 import { ModalDeleteConfirmationComponent } from '../../components/modal-delete-confirmation/modal-delete-confirmation.component';
 import { ModalPhotoUploadComponent } from '../../components/modal-photo-upload/modal-photo-upload.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { Album, Photo } from '../../interfaces';
+import { Album, NotificationLevel, Photo } from '../../interfaces';
 
 @Component({
   selector: 'app-album',
@@ -29,7 +30,7 @@ export class AlbumComponent {
   @ViewChild('carousel', { static: false }) carousel!: NgbCarousel;
   private offcanvasService = inject(NgbOffcanvas);
 
-  constructor(private route: ActivatedRoute, private pixelperfectService: PixelPerfectService, private shareService: ShareService, private sanitizer: DomSanitizer, private modalService: NgbModal) {}
+  constructor(private route: ActivatedRoute, private notification: NotificationService, private pixelperfectService: PixelPerfectService, private shareService: ShareService, private sanitizer: DomSanitizer, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.getAlbum();
@@ -127,12 +128,11 @@ export class AlbumComponent {
 
   sharePhoto(photo: Photo) {
     if (!this.shareService.canShare()) {
-      alert(`This service/api is not supported in your Browser`);
+      this.notification.addNotification(NotificationLevel.ERROR, 'Sharing is not supported by this Browser');
       return;
     }
-
     if (!this.shareService.canShareFile([this.photo_image_file_list[photo.id]])) {
-      alert(`This file is not supported for sharing in your Browser`);
+      this.notification.addNotification(NotificationLevel.ERROR, 'Unsupported filetype for sharing');
       return;
     }
     this.shareService.share({files: [this.photo_image_file_list[photo.id]]}).then( (response) => {
@@ -142,21 +142,6 @@ export class AlbumComponent {
       console.log(error);
     });
   }
-
-//     this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
-//       const photo_file = new File([photo_image], photo.name, {type: photo_image.type,});
-//       if (!this.shareService.canShareFile([photo_file])) {
-//         alert(`This file is not supported for sharing in your Browser`);
-//         return;
-//       }
-//       this.shareService.share({files: [photo_file]}).then( (response) => {
-//         console.log(response);
-//       })
-//       .catch( (error) => {
-//         console.log(error);
-//       });
-//     })
-//   }
 
   deletePhoto(photo: Photo) {
     this.pixelperfectService.deletePhoto(photo.id).subscribe((photo) => this.getAlbumPhotos());
