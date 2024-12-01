@@ -23,15 +23,14 @@ class SessionCookieMiddleware(BaseHTTPMiddleware):
             if not session_token:
                 return JSONResponse(status_code=403, content={"detail": "Not logged in"})
             else:
-                db = next(get_db())
-                user_session = crud.get_user_session(db=db, session_token=session_token)
+                user_session = crud.get_user_session_cached(session_token=session_token)
                 if not user_session:
                     return JSONResponse(status_code=403, content={"detail": "Session token invalid or expired"})
                 elif user_session.expires < datetime.now():
-                    crud.remove_user_session(db=db, session_token=user_session.token)
+                    crud.remove_user_session(db=next(get_db()), session_token=user_session.token)
                     return JSONResponse(status_code=403, content={"detail": "Session expired"})
                 elif request.method in ADMIN_METHODS:
-                    if not crud.get_user(db=db, username=user_session.username).is_admin:
+                    if not crud.get_user(db=next(get_db()), username=user_session.username).is_admin:
                         return JSONResponse(status_code=403, content={"detail": "Permission denied"})
         response = await call_next(request)
         return response
