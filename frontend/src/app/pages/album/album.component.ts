@@ -22,6 +22,7 @@ export class AlbumComponent {
   photo_list?: Photo[];
   photo_thumbnail_list: {[photo_id: string]: SafeUrl} = {};
   photo_image_list: {[photo_id: string]: SafeUrl} = {};
+  photo_image_file_list: {[photo_id: string]: File} = {};
   photo_image_thumbnail_list: {[photo_id: string]: SafeUrl} = {};
   photo_selected?: Photo;
   inCarousel: boolean = false;
@@ -98,6 +99,7 @@ export class AlbumComponent {
     this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
       let photo_image_url = URL.createObjectURL(photo_image);
       this.photo_image_list[photo.id] = this.sanitizer.bypassSecurityTrustUrl(photo_image_url);
+      this.photo_image_file_list[photo.id] = new File([photo_image], photo.name, {type: photo_image.type});
     })
   }
 
@@ -129,20 +131,32 @@ export class AlbumComponent {
       return;
     }
 
-    this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
-      const photo_file = new File([photo_image], photo.name, {type: photo_image.type,});
-      if (!this.shareService.canShareFile([photo_file])) {
-        alert(`This file is not supported for sharing in your Browser`);
-        return;
-      }
-      this.shareService.share({files: [photo_file]}).then( (response) => {
-        console.log(response);
-      })
-      .catch( (error) => {
-        console.log(error);
-      });
+    if (!this.shareService.canShareFile([this.photo_image_file_list[photo.id]])) {
+      alert(`This file is not supported for sharing in your Browser`);
+      return;
+    }
+    this.shareService.share({files: [this.photo_image_file_list[photo.id]]}).then( (response) => {
+      console.log(response);
     })
+    .catch( (error) => {
+      console.log(error);
+    });
   }
+
+//     this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
+//       const photo_file = new File([photo_image], photo.name, {type: photo_image.type,});
+//       if (!this.shareService.canShareFile([photo_file])) {
+//         alert(`This file is not supported for sharing in your Browser`);
+//         return;
+//       }
+//       this.shareService.share({files: [photo_file]}).then( (response) => {
+//         console.log(response);
+//       })
+//       .catch( (error) => {
+//         console.log(error);
+//       });
+//     })
+//   }
 
   deletePhoto(photo: Photo) {
     this.pixelperfectService.deletePhoto(photo.id).subscribe((photo) => this.getAlbumPhotos());
