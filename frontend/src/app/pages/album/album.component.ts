@@ -129,10 +129,13 @@ export class AlbumComponent {
       return;
     }
 
-    if (!this.shareService.canShareFile([this.photo_image_list[photo.id]])) {
-      alert(`This file is not supported for sharing in your Browser`);
-      return;
-    }
+    this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
+      const photo_file = new File([photo_image], 'image.jpeg', {type: photo_image.type,});
+      if (!this.shareService.canShareFile([photo_file])) {
+        alert(`This file is not supported for sharing in your Browser`);
+        return;
+      }
+    })
 //     this.shareService.share({files: [this.photo_image_list[photo.id]]}).then( (response) => {
     this.shareService
     .share({

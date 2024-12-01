@@ -15,7 +15,7 @@ export class ShareService {
     return this.webNavigator !== null && this.webNavigator.share !== undefined;
   }
 
-  canShareFile(file: []): boolean {
+  canShareFile(file: [Blob]): boolean {
     return this.webNavigator !== null && this.webNavigator.share !== undefined && this.webNavigator.canShare({ files: file });
   }
 
