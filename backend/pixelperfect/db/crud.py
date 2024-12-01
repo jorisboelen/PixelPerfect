@@ -1,5 +1,6 @@
+from cachetools import cached, TTLCache
 from sqlmodel import Session, select
-
+from pixelperfect.db.database import get_db
 from pixelperfect.db.models import Album, AlbumCreate, Photo, User, UserSession
 
 
@@ -72,6 +73,11 @@ def update_user_password(db: Session, db_user: User, hashed_password: str):
 
 def get_user_session(db: Session, session_token: str):
     return db.get(UserSession, session_token)
+
+
+@cached(TTLCache(maxsize=1024, ttl=30))
+def get_user_session_cached(session_token: str):
+    return get_user_session(db=next(get_db()), session_token=session_token)
 
 
 def create_user_session(db: Session, user_session: UserSession):

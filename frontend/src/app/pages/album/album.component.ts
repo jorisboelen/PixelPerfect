@@ -3,11 +3,13 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbCarousel, NgbCarouselModule, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../../services/notification.service';
 import { PixelPerfectService } from '../../services/pixelperfect.service';
+import { ShareService } from '../../services/share.service';
 import { ModalDeleteConfirmationComponent } from '../../components/modal-delete-confirmation/modal-delete-confirmation.component';
 import { ModalPhotoUploadComponent } from '../../components/modal-photo-upload/modal-photo-upload.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { Album, Photo } from '../../interfaces';
+import { Album, NotificationLevel, Photo } from '../../interfaces';
 
 @Component({
   selector: 'app-album',
@@ -21,13 +23,14 @@ export class AlbumComponent {
   photo_list?: Photo[];
   photo_thumbnail_list: {[photo_id: string]: SafeUrl} = {};
   photo_image_list: {[photo_id: string]: SafeUrl} = {};
+  photo_image_file_list: {[photo_id: string]: File} = {};
   photo_image_thumbnail_list: {[photo_id: string]: SafeUrl} = {};
   photo_selected?: Photo;
   inCarousel: boolean = false;
   @ViewChild('carousel', { static: false }) carousel!: NgbCarousel;
   private offcanvasService = inject(NgbOffcanvas);
 
-  constructor(private route: ActivatedRoute, private pixelperfectService: PixelPerfectService, private sanitizer: DomSanitizer, private modalService: NgbModal) {}
+  constructor(private route: ActivatedRoute, private notification: NotificationService, private pixelperfectService: PixelPerfectService, private shareService: ShareService, private sanitizer: DomSanitizer, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.getAlbum();
@@ -51,7 +54,7 @@ export class AlbumComponent {
 	  this.inCarousel = false;
 	}
 
-	openPhotoUploadModal(): void {
+  openPhotoUploadModal(): void {
     const modal = this.modalService.open(ModalPhotoUploadComponent, {});
     modal.result.then(
       (result) => {this.uploadPhotos(result.target.files)},
@@ -97,6 +100,7 @@ export class AlbumComponent {
     this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
       let photo_image_url = URL.createObjectURL(photo_image);
       this.photo_image_list[photo.id] = this.sanitizer.bypassSecurityTrustUrl(photo_image_url);
+      this.photo_image_file_list[photo.id] = new File([photo_image], photo.name, {type: photo_image.type});
     })
   }
 
@@ -122,11 +126,32 @@ export class AlbumComponent {
     this.pixelperfectService.updateAlbumCover(album_id, photo.id).subscribe();
   }
 
+  sharePhoto(photo: Photo) {
+    if (!this.shareService.canShare()) {
+      this.notification.addNotification(NotificationLevel.ERROR, 'Sharing is not supported by this Browser');
+      return;
+    }
+    if (!this.shareService.canShareFile([this.photo_image_file_list[photo.id]])) {
+      this.notification.addNotification(NotificationLevel.ERROR, 'Unsupported filetype for sharing');
+      return;
+    }
+    this.shareService.share({files: [this.photo_image_file_list[photo.id]]}).then( (response) => {
+      console.log(response);
+    })
+    .catch( (error) => {
+      console.log(error);
+    });
+  }
+
   deletePhoto(photo: Photo) {
     this.pixelperfectService.deletePhoto(photo.id).subscribe((photo) => this.getAlbumPhotos());
   }
 
   isAdminUser(): boolean {
     return this.pixelperfectService.isAdminUser();
+  }
+
+  canShare(): boolean {
+    return this.shareService.canShare();
   }
 }
