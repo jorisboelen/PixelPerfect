@@ -135,19 +135,13 @@ export class AlbumComponent {
         alert(`This file is not supported for sharing in your Browser`);
         return;
       }
+      this.shareService.share({files: [photo_file]}).then( (response) => {
+        console.log(response);
+      })
+      .catch( (error) => {
+        console.log(error);
+      });
     })
-    this.shareService.share({files: [photo_file]}).then( (response) => {
-//     this.shareService
-//     .share({
-//         title: 'Test',
-//         text: 'bla ' + photo.id + ' ' + photo.name,
-//         url: 'https://developers.google.com/web'
-//       }).then( (response) => {
-      console.log(response);
-    })
-    .catch( (error) => {
-      console.log(error);
-    });
   }
 
   deletePhoto(photo: Photo) {
