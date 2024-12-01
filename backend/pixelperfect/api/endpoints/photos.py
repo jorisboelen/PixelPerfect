@@ -27,6 +27,7 @@ def read_photo_image(photo_id: int, size: Union[str, None] = None, db: Session =
     if not photo:
         raise HTTPException(status_code=404, detail="Photo not found")
     photo_path = get_photo_image_path(file_name=str(photo.file_name), size=size)
+    db.close()
     return Response(smart_open(photo_path, mode='rb').read(), media_type=guess_type(photo_path)[0])
 
 

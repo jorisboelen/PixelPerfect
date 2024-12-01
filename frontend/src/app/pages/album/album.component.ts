@@ -130,7 +130,7 @@ export class AlbumComponent {
     }
 
     this.pixelperfectService.getPhotoImage(photo.id).subscribe((photo_image) => {
-      const photo_file = new File([photo_image], 'image.jpeg', {type: photo_image.type,});
+      const photo_file = new File([photo_image], photo.name, {type: photo_image.type,});
       if (!this.shareService.canShareFile([photo_file])) {
         alert(`This file is not supported for sharing in your Browser`);
         return;
