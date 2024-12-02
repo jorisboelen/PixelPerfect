@@ -11,8 +11,8 @@ jobs:
         strategy:
             matrix:
                 app:
-                    - backend
-#                    - frontend
+#                    - backend
+                    - frontend
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-python@v5
