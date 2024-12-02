@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 app:
-#                    - backend
+                    - backend
                     - frontend
         steps:
             - uses: actions/checkout@v4
@@ -83,6 +83,7 @@ jobs:
                   docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
                     -e ORG=$ORG \
                     -e REPO=$REPO \
+                    -e APPLICATION_PATH=$APPLICATION_PATH \
                     -e OBOM_ARTIFACT_SHA=$OBOM_ARTIFACT_SHA \
                     -e GITHUB_EVENT_NAME \
                     -e GITHUB_HEAD_REF \
