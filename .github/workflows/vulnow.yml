@@ -25,76 +25,65 @@ jobs:
               working-directory: ./backend
               if: matrix.app == 'backend'
 
-            - name: "VULNOW :: Setup Variables"
-              id: vars
-              run: |
-                  ORG=$(echo "${{ github.repository }}" | cut -d'/' -f1)
-                  REPO=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-                  COMMITID=$(git rev-parse HEAD)
+            -   name: "VULNOW :: Setup Variables"
+                id: vars
+                run: |
+                    ORG=$(echo "${{ github.repository }}" | cut -d'/' -f1)
+                    REPO=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+                    COMMITID=$(git rev-parse HEAD)
 
-                  # Export these values to the environment
-                  echo "ORG=$ORG" >> $GITHUB_ENV
-                  echo "REPO=$REPO" >> $GITHUB_ENV
-                  echo "COMMITID=$COMMITID" >> $GITHUB_ENV
+                    # Export these values to the environment
+                    echo "ORG=$ORG" >> $GITHUB_ENV
+                    echo "REPO=$REPO" >> $GITHUB_ENV
+                    echo "COMMITID=$COMMITID" >> $GITHUB_ENV
+                    echo "BUILD_STARTED_AT=${{ env.BUILD_STARTED_AT }}" >> $GITHUB_ENV
 
-                  # Set VULNOW variables directly
-                  echo "VULNOW_ENDPOINT=https://customer1-1d131cf0.vulnow.io/api/dataingestion" >> $GITHUB_ENV
-                  echo "VULNOW_IMG=drakkars/vulnow:0.4" >> $GITHUB_ENV
+                    # Set VULNOW variables directly
+                    echo "VULNOW_ENDPOINT=https://customer1-1d131cf0.vulnow.io/api/dataingestion" >> $GITHUB_ENV
+                    echo "VULNOW_IMG=drakkars/vulnow:0.4" >> $GITHUB_ENV
 
-                  # Set application-specific variables
-                  echo "APPLICATION_PATH=${{ matrix.app }}" >> $GITHUB_ENV
+                    # Set application-specific variables
+                    echo "APPLICATION_PATH=${{ matrix.app }}" >> $GITHUB_ENV
 
-            - name: "VULNOW :: Get SBOM"
-              run: |
-                  docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
-                    -e ORG=$ORG \
-                    -e REPO=$REPO \
-                    -e APPLICATION_PATH=$APPLICATION_PATH \
-                    -e GITHUB_EVENT_NAME \
-                    -e GITHUB_HEAD_REF \
-                    -e GITHUB_BASE_REF \
-                    -e GITHUB_REF_NAME \
-                    -e GITHUB_REF \
-                    -v ${{ github.workspace }}:/repo --workdir /repo \
-                    $VULNOW_IMG \
-                    python /app/cicd_cli.py get-sbom . --application-path $APPLICATION_PATH
-              env:
-                  VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
 
-            - name: "VULNOW :: Send SBOM"
-              run: |
-                  cat $APPLICATION_PATH/dynamic_traits.yml
-                  docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
-                    -e ORG=$ORG \
-                    -e REPO=$REPO \
-                    -e GITHUB_EVENT_NAME \
-                    -e GITHUB_HEAD_REF \
-                    -e GITHUB_BASE_REF \
-                    -e GITHUB_REF_NAME \
-                    -e GITHUB_REF \
-                    -v ${{ github.workspace }}:/repo --workdir /repo \
-                    $VULNOW_IMG \
-                    python /app/cicd_cli.py send-bom --api_url $VULNOW_ENDPOINT -f bom.json --bom_type sbom --application-path $APPLICATION_PATH
-              env:
-                  VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
+            -   name: "VULNOW :: Get SBOM"
+                run: |
+                    docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
+                      -e ORG=$ORG \
+                      -e REPO=$REPO \
+                      -e APPLICATION_PATH=$APPLICATION_PATH \
+                      -e GITHUB_EVENT_NAME \
+                      -e GITHUB_HEAD_REF \
+                      -e GITHUB_BASE_REF \
+                      -e GITHUB_REF_NAME \
+                      -e GITHUB_REF \
+                      -e BUILD_STARTED_AT=$BUILD_STARTED_AT \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
+                      $VULNOW_IMG \
+                      python /app/cicd_cli.py get-sbom . --application-path $APPLICATION_PATH
+                env:
+                    VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
 
-            - name: "VULNOW :: Ingest"
-              run: |
-                  docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
-                    -e ORG=$ORG \
-                    -e REPO=$REPO \
-                    -e APPLICATION_PATH=$APPLICATION_PATH \
-                    -e OBOM_ARTIFACT_SHA=$OBOM_ARTIFACT_SHA \
-                    -e GITHUB_EVENT_NAME \
-                    -e GITHUB_HEAD_REF \
-                    -e GITHUB_BASE_REF \
-                    -e GITHUB_REF_NAME \
-                    -e GITHUB_REF \
-                    -v ${{ github.workspace }}:/repo --workdir /repo \
-                    $VULNOW_IMG \
-                    python /app/cicd_cli.py ingest --api_url $VULNOW_ENDPOINT --application-path $APPLICATION_PATH
-              env:
-                  VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
+            -   name: "VULNOW :: Send SBOM"
+                run: |
+                    cat $APPLICATION_PATH/dynamic_traits.yml
+                    docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
+                      $VULNOW_IMG \
+                      python /app/cicd_cli.py send-bom --api_url $VULNOW_ENDPOINT -f bom.json --bom_type sbom --application-path $APPLICATION_PATH
+                env:
+                    VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
+
+
+            -   name: "VULNOW :: Ingest"
+                run: |
+                    docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
+                      -v ${{ github.workspace }}:/repo --workdir /repo \
+                      $VULNOW_IMG \
+                      python /app/cicd_cli.py ingest --api_url $VULNOW_ENDPOINT --application-path $APPLICATION_PATH
+                env:
+                    VULNOW_API_KEY: ${{ secrets.VULNOW_API_KEY }}
+
 
 #            -   uses: actions/upload-artifact@v4
 #                with:
