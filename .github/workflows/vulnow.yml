@@ -68,6 +68,7 @@ jobs:
                 run: |
                     cat $APPLICATION_PATH/dynamic_traits.yml
                     docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
+                      -e APPLICATION_PATH=$APPLICATION_PATH \
                       -v ${{ github.workspace }}:/repo --workdir /repo \
                       $VULNOW_IMG \
                       python /app/cicd_cli.py send-bom --api_url $VULNOW_ENDPOINT -f bom.json --bom_type sbom --application-path $APPLICATION_PATH
@@ -78,6 +79,7 @@ jobs:
             -   name: "VULNOW :: Ingest"
                 run: |
                     docker run -e VULNOW_API_KEY=${{ secrets.VULNOW_API_KEY }} \
+                      -e APPLICATION_PATH=$APPLICATION_PATH \
                       -v ${{ github.workspace }}:/repo --workdir /repo \
                       $VULNOW_IMG \
                       python /app/cicd_cli.py ingest --api_url $VULNOW_ENDPOINT --application-path $APPLICATION_PATH
