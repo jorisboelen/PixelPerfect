@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import Response
 from mimetypes import guess_type
-from smart_open import smart_open
+from smart_open import open as smart_open
 from sqlmodel import Session
 from typing import Union
 

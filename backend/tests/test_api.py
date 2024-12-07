@@ -1,8 +1,13 @@
 from fastapi.testclient import TestClient
+from filecmp import cmp
+from os.path import join
 from pixelperfect.app import app
-from pixelperfect.db.models import Album
+from pixelperfect.db.models import Album, Photo
 from random import choice
-from .fixtures import *
+from tempfile import NamedTemporaryFile
+from time import sleep
+from .fixtures import alembic_upgrade, album, album_create, photo, photo_files, users, user_tokens, fake
+from .fixtures import RESOURCES_PATH
 
 client = TestClient(app)
 
@@ -68,6 +73,30 @@ class TestAdmin:
         assert response.status_code == 200
         assert album not in [Album.model_validate(r) for r in response.json()]
 
+    def test_put_album_cover(self, album, photo):
+        cover_photo = photo(album_id=album.id)
+        response = client.put(f"/api/albums/{album.id}/cover", params={'cover_photo_id': cover_photo.id})
+        assert response.status_code == 200
+        assert response.json().get('cover_photo_id') == cover_photo.id
+
+    def test_post_album_photos(self, album, photo_files):
+        upload_files = [('files', open(str(p), 'rb')) for p in photo_files]
+        response = client.post(f"/api/albums/{album.id}/upload", files=upload_files)
+        assert response.status_code == 202
+        assert sorted(response.json().get('received')) == sorted(p.name for p in photo_files)
+        sleep(1)  # wait for photos to be processed
+        response = client.get(f"/api/albums/{album.id}/photos")
+        assert response.status_code == 200
+        assert [r.get('name') for r in response.json()] == sorted(p.name for p in photo_files)
+
+    def test_delete_photo(self, album, photo):
+        album_photo = photo(album_id=album.id)
+        response = client.delete(f"/api/photos/{album_photo.id}")
+        assert response.status_code == 204
+        response = client.get(f"/api/albums/{album.id}/photos")
+        assert response.status_code == 200
+        assert album_photo.name not in [r.get('name') for r in response.json()]
+
     def test_get_users_me(self, users):
         test_user = users['correct'][0]
         response = client.get("/api/users/me")
@@ -96,6 +125,26 @@ class TestViewer:
         response = client.get(f"/api/albums/{album.id}")
         assert response.status_code == 200
         assert Album.model_validate(response.json()) == album
+
+    def test_get_album_photos(self, album, photo):
+        album_photo = photo(album_id=album.id)
+        response = client.get(f"/api/albums/{album.id}/photos")
+        assert response.status_code == 200
+        assert album_photo in [Photo.model_validate(r) for r in response.json()]
+
+    def test_get_photo(self, album, photo):
+        album_photo = photo(album_id=album.id)
+        response = client.get(f"/api/photos/{album_photo.id}")
+        assert response.status_code == 200
+        assert Photo.model_validate(response.json()) == album_photo
+
+    def test_get_photo_image(self, album, photo):
+        album_photo = photo(album_id=album.id)
+        response = client.get(f"/api/photos/{album_photo.id}/image")
+        with NamedTemporaryFile(mode='wb') as f:
+            f.write(response.content)
+            assert response.status_code == 200
+            assert cmp(f.name, join(RESOURCES_PATH, album_photo.name))
 
     def test_get_users_me(self, users):
         test_user = users['correct'][1]
