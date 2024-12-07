@@ -34,6 +34,9 @@ wheels/
 # pyenv
 .python-version
 
+# tox
+.tox
+
 # virtualenv
 .venv
 venv/
