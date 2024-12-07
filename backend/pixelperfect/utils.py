@@ -9,7 +9,7 @@ from os.path import basename, join, splitext
 from PIL import Image
 from plum.exceptions import UnpackError
 from shutil import copyfileobj
-from smart_open import smart_open
+from smart_open import open as smart_open
 from sqlmodel import Session
 from typing import BinaryIO
 from uuid import uuid4
@@ -110,7 +110,7 @@ def process_photo_upload(db: Session, album_id: int, name: str, file_path: str):
                       width=image.width,
                       height=image.height,
                       exif_data=dumps(image_exif_data))
-        crud.create_photo(db, photo)
+        return crud.create_photo(db, photo)
 
 
 def remove_photo_upload(file_name: str):

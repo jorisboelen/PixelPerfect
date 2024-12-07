@@ -4,7 +4,7 @@ from sqlmodel import Session
 from pixelperfect.api.endpoints.photos import delete_photo
 from pixelperfect.db import crud
 from pixelperfect.db.database import get_db
-from pixelperfect.db.models import Album, AlbumCreate, AlbumWithCoverPhoto, Photo
+from pixelperfect.db.models import Album, AlbumCreate, AlbumWithCoverPhoto, Photo, ReceivedFiles
 from pixelperfect.utils import process_photo_upload, save_photo_upload
 
 router = APIRouter()
@@ -64,7 +64,7 @@ def read_album_photos(album_id: int, db: Session = Depends(get_db)):
     return photos
 
 
-@router.post("/{album_id}/upload", status_code=202)
+@router.post("/{album_id}/upload", response_model=ReceivedFiles, status_code=202)
 def upload_album_photos(album_id: int, files: list[UploadFile], background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     album = crud.get_album(db=db, album_id=album_id)
     if not album:
@@ -72,4 +72,4 @@ def upload_album_photos(album_id: int, files: list[UploadFile], background_tasks
     for file in files:
         file_path = save_photo_upload(file)
         background_tasks.add_task(process_photo_upload, db, album_id, file.filename, file_path)
-    return {"received": [file.filename for file in files]}
+    return ReceivedFiles(received=[file.filename for file in files])

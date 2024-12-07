@@ -61,3 +61,7 @@ class UserSession(SQLModel, table=True):
     token: str = Field(primary_key=True, max_length=64)
     username: str = Field(foreign_key="users.username")
     expires: datetime = Field(index=True)
+
+
+class ReceivedFiles(SQLModel):
+    received: list[str]

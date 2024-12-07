@@ -1,6 +1,6 @@
 from pixelperfect.core.settings import settings
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlmodel import Session
 
 database_url = str(settings.sqlalchemy_database_url)
