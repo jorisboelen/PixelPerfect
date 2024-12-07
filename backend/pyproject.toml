@@ -59,4 +59,4 @@ env_list = ["3.10", "3.11", "3.12", "3.13"]
 description = "run unit tests"
 extras = ["all", "dev"]
 set_env = {BASE_DIRECTORY="{envtmpdir}", IMAGE_DIRECTORY="{envtmpdir}/images"}
-commands = [["pytest", { replace = "posargs", default = ["tests"], extend = true }]]
+commands = [["pytest", "tests"]]
