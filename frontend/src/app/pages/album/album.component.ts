@@ -27,6 +27,7 @@ export class AlbumComponent {
   photo_image_thumbnail_list: {[photo_id: string]: SafeUrl} = {};
   photo_selected?: Photo;
   inCarousel: boolean = false;
+  posIniCarousel: any;
   @ViewChild('carousel', { static: false }) carousel!: NgbCarousel;
   private offcanvasService = inject(NgbOffcanvas);
 
@@ -42,6 +43,13 @@ export class AlbumComponent {
     this.carousel.select(photo.id.toString());
     this.carousel.focus();
     this.carousel.pause();
+  }
+
+  moveCarousel(pos:number) {
+    const offset = this.posIniCarousel - pos;
+    if (offset < -100) this.carousel.prev()
+
+    if (offset > 100) this.carousel.next();
   }
 
   openDetailsPanel(content: TemplateRef<any>, photo: Photo) {

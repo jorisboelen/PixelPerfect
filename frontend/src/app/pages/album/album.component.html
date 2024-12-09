@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div [hidden]="!inCarousel">
+  <div [hidden]="!inCarousel" (touchstart)="posIniCarousel = $event.changedTouches[0].pageX" (touchend)="moveCarousel(posIniCarousel.changedTouches[0].pageX)">
     <ngb-carousel *ngIf="photo_image_list" #carousel [showNavigationIndicators]="false">
       <ng-template ngbSlide *ngFor="let photo of photo_list" [id]="photo.id.toString()">
         <div class="picsum-img-wrapper clickable" (click)="openDetailsPanel(content, photo)">
