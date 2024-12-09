@@ -33,7 +33,8 @@
     <ngb-carousel *ngIf="photo_image_list" #carousel [showNavigationIndicators]="false">
       <ng-template ngbSlide *ngFor="let photo of photo_list" [id]="photo.id.toString()">
         <div class="picsum-img-wrapper clickable" (click)="openDetailsPanel(content, photo)">
-          <img [src]="photo_image_list[photo.id]" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
+          <img *ngIf="!photo_image_list[photo.id]" src="assets/loading.gif" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
+          <img *ngIf="photo_image_list[photo.id]" [src]="photo_image_list[photo.id]" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
         </div>
       </ng-template>
     </ngb-carousel>
