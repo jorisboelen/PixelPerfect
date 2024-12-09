@@ -5,7 +5,8 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" *ngFor="let photo of photo_list">
           <div class="card text-bg-dark clickable" (click)="openCarousel(photo)">
-            <img [src]="photo_image_thumbnail_list[photo.id]" class="card-img" alt="{{ photo.name }}">
+            <img *ngIf="!photo_image_thumbnail_list[photo.id]" src="assets/loading.gif" class="card-img" alt="{{ photo.name }}" fetchpriority="high">
+            <img *ngIf="photo_image_thumbnail_list[photo.id]" [src]="photo_image_thumbnail_list[photo.id]" class="card-img" alt="{{ photo.name }}">
             <div class="card-img-overlay">
               <h5 class="card-title text-border">{{ photo.name }}</h5>
             </div>
