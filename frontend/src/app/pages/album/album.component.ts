@@ -45,10 +45,9 @@ export class AlbumComponent {
     this.carousel.pause();
   }
 
-  moveCarousel(pos:number) {
+  moveCarousel(pos: number) {
     const offset = this.posIniCarousel - pos;
-    if (offset < -100) this.carousel.prev()
-
+    if (offset < -100) this.carousel.prev();
     if (offset > 100) this.carousel.next();
   }
 
