@@ -6,8 +6,9 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" *ngFor="let album of album_list">
           <div class="card text-bg-dark clickable" routerLink="/album/{{ album.id }}">
-            <img *ngIf="album.cover_photo" [src]="album_cover_list[album.cover_photo.id]" class="card-img" alt="{{ album.name }}">
-            <img *ngIf="!album.cover_photo" src="assets/album.jpg" class="card-img" alt="{{ album.name }}">
+            <img *ngIf="album.cover_photo && !album_cover_list[album.cover_photo.id]" src="assets/loading.gif" class="card-img" alt="{{ album.name }}" fetchpriority="high">
+            <img *ngIf="album.cover_photo && album_cover_list[album.cover_photo.id]" [src]="album_cover_list[album.cover_photo.id]" class="card-img" alt="{{ album.name }}">
+            <img *ngIf="!album.cover_photo" src="assets/album.jpg" class="card-img" alt="{{ album.name }}" fetchpriority="high">
             <div class="card-img-overlay">
               <h5 class="card-title text-border">
                 {{ album.name }}

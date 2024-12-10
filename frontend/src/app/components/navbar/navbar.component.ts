@@ -78,6 +78,16 @@ export class NavbarComponent {
     }
   }
 
+  supportFullscreen(): boolean {
+    return typeof this.documentElement.requestFullscreen !== 'undefined' ||
+      typeof this.documentElement.mozRequestFullScreen !== 'undefined' ||
+      typeof this.documentElement.webkitRequestFullscreen !== 'undefined' ||
+      typeof this.documentElement.msRequestFullscreen !== 'undefined' ||
+      typeof this.document.exitFullscreen !== 'undefined' ||
+      typeof this.document.mozCancelFullScreen !== 'undefined' ||
+      typeof this.document.webkitExitFullscreen !== 'undefined';
+  };
+
   openAddDialog(): void {
     this.openAddDialogEvent.emit();
   }

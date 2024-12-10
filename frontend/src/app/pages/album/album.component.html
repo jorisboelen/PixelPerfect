@@ -5,7 +5,8 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" *ngFor="let photo of photo_list">
           <div class="card text-bg-dark clickable" (click)="openCarousel(photo)">
-            <img [src]="photo_image_thumbnail_list[photo.id]" class="card-img" alt="{{ photo.name }}">
+            <img *ngIf="!photo_image_thumbnail_list[photo.id]" src="assets/loading.gif" class="card-img" alt="{{ photo.name }}" fetchpriority="high">
+            <img *ngIf="photo_image_thumbnail_list[photo.id]" [src]="photo_image_thumbnail_list[photo.id]" class="card-img" alt="{{ photo.name }}">
             <div class="card-img-overlay">
               <h5 class="card-title text-border">{{ photo.name }}</h5>
             </div>
@@ -31,8 +32,9 @@
   <div [hidden]="!inCarousel">
     <ngb-carousel *ngIf="photo_image_list" #carousel [showNavigationIndicators]="false">
       <ng-template ngbSlide *ngFor="let photo of photo_list" [id]="photo.id.toString()">
-        <div class="picsum-img-wrapper clickable" (click)="openDetailsPanel(content, photo)">
-          <img [src]="photo_image_list[photo.id]" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
+        <div class="picsum-img-wrapper clickable" (click)="openDetailsPanel(content, photo)" (touchstart)="posIniCarousel = $event.changedTouches[0].pageX" (touchend)="moveCarousel($event.changedTouches[0].pageX)">
+          <img *ngIf="!photo_image_list[photo.id]" src="assets/loading.gif" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
+          <img *ngIf="photo_image_list[photo.id]" [src]="photo_image_list[photo.id]" alt="{{ photo.name }}" class="object-fit-contain vh-100 mw-100 d-block mx-auto" />
         </div>
       </ng-template>
     </ngb-carousel>
