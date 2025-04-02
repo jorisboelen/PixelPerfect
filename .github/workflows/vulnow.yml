@@ -1,9 +1,10 @@
-name: VULNOW Test
+name: VULNOW
 
 on:
-    push:
-        branches: [ 'test/vulnow_multirepo' ]
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 
 jobs:
