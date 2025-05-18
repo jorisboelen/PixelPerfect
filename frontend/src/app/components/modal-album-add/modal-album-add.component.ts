@@ -4,11 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumModel } from '../../models'
 
 @Component({
-  selector: 'app-modal-album-add',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './modal-album-add.component.html',
-  styleUrl: './modal-album-add.component.css'
+    selector: 'app-modal-album-add',
+    imports: [FormsModule],
+    templateUrl: './modal-album-add.component.html',
+    styleUrl: './modal-album-add.component.css'
 })
 export class ModalAlbumAddComponent {
   @Input() album!: AlbumModel;

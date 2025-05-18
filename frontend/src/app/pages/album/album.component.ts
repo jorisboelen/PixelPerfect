@@ -12,11 +12,10 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { Album, NotificationLevel, Photo } from '../../interfaces';
 
 @Component({
-  selector: 'app-album',
-  standalone: true,
-  imports: [ DatePipe, NavbarComponent, NgFor, NgIf, NgbCarouselModule, RouterLink ],
-  templateUrl: './album.component.html',
-  styleUrl: './album.component.css'
+    selector: 'app-album',
+    imports: [DatePipe, NavbarComponent, NgFor, NgIf, NgbCarouselModule, RouterLink],
+    templateUrl: './album.component.html',
+    styleUrl: './album.component.css'
 })
 export class AlbumComponent {
   album?: Album;

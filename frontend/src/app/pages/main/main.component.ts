@@ -12,11 +12,10 @@ import { Album } from '../../interfaces';
 import { AlbumModel } from '../../models';
 
 @Component({
-  selector: 'app-main',
-  standalone: true,
-  imports: [ NavbarComponent, NgFor, NgIf, RouterLink ],
-  templateUrl: './main.component.html',
-  styleUrl: './main.component.css'
+    selector: 'app-main',
+    imports: [NavbarComponent, NgFor, NgIf, RouterLink],
+    templateUrl: './main.component.html',
+    styleUrl: './main.component.css'
 })
 export class MainComponent {
   album_list?: Album[];

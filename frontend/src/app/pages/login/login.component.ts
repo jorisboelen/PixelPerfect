@@ -4,11 +4,10 @@ import { PixelPerfectService } from '../../services/pixelperfect.service';
 import { UserLoginModel } from '../../models';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [FormsModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
   user_login: UserLoginModel = new UserLoginModel();
