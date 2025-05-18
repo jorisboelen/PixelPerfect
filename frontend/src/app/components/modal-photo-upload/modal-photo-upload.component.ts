@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-modal-photo-upload',
-  standalone: true,
-  imports: [NgClass, NgIf],
-  templateUrl: './modal-photo-upload.component.html',
-  styleUrl: './modal-photo-upload.component.css'
+    selector: 'app-modal-photo-upload',
+    imports: [NgClass, NgIf],
+    templateUrl: './modal-photo-upload.component.html',
+    styleUrl: './modal-photo-upload.component.css'
 })
 export class ModalPhotoUploadComponent {
   upload_error?: string;
