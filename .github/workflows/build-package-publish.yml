@@ -35,6 +35,8 @@ jobs:
                 working-directory: ./backend
         steps:
             - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
             - uses: actions/setup-python@v5
               with:
                   python-version: 3.11
@@ -43,7 +45,7 @@ jobs:
                   name: frontend
                   path: backend/pixelperfect/static/
             - run: |
-                  pip install build
+                  pip install --upgrade build pip
                   python -m build
             - uses: actions/upload-artifact@v4
               with:
