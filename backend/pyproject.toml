@@ -48,6 +48,7 @@ env_list = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.tox.env_run_base]
 description = "run unit tests"
-extras = ["all", "dev"]
+dependency_groups = ["test"]
+extras = ["all"]
 set_env = {BASE_DIRECTORY="{envtmpdir}", IMAGE_DIRECTORY="{envtmpdir}/images"}
 commands = [["pytest", "tests"]]
