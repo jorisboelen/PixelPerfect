@@ -1,0 +1,2 @@
+exclude development.env
+recursive-exclude tests *
