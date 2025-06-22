@@ -19,5 +19,5 @@ jobs:
               with:
                   python-version: ${{ matrix.version }}
             - run: |
-                  pip install .[dev]
+                  pip install .[all] --group test
                   tox -q

@@ -1,2 +1,5 @@
+from importlib.metadata import version
+
+
 __application__ = 'PixelPerfect'
-__version__ = '0.2.5'
+__version__ = version(__application__)

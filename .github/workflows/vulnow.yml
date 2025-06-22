@@ -40,7 +40,7 @@ jobs:
         if: matrix.app == 'backend'
 
       - run: |
-          pip install build
+          pip install --upgrade build pip
           python -m build
         working-directory: ./backend
         if: matrix.app == 'backend'
