@@ -14,7 +14,7 @@ dependencies = [
     "cloudpathlib==0.21.1",
     "exif==1.6.1",
     "fastapi==0.115.12",
-    "pillow==11.2.1",
+    "pillow==11.3.0",
     "pydantic-settings==2.9.1",
     "python-multipart==0.0.20",
     "smart-open==7.1.0",
