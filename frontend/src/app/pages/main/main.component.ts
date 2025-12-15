@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,7 @@ import { AlbumModel } from '../../models';
 
 @Component({
     selector: 'app-main',
-    imports: [NavbarComponent, NgFor, NgIf, RouterLink],
+    imports: [NavbarComponent, RouterLink],
     templateUrl: './main.component.html',
     styleUrl: './main.component.css'
 })
