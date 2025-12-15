@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, Output, EventEmitter } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, HostListener, Inject, Output, EventEmitter, DOCUMENT } from '@angular/core';
+
 import { RouterLink } from '@angular/router';
 import { PixelPerfectService } from '../../services/pixelperfect.service';
 

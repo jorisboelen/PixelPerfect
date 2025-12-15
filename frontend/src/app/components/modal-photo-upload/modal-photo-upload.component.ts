@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-modal-photo-upload',
-    imports: [NgClass, NgIf],
+    imports: [NgClass],
     templateUrl: './modal-photo-upload.component.html',
     styleUrl: './modal-photo-upload.component.css'
 })

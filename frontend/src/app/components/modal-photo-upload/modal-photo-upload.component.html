@@ -5,6 +5,8 @@
   </div>
   <div class="modal-body" ngbAutofocus>
     <input [ngClass]="upload_error ? 'form-control is-invalid' : 'form-control'" type="file" id="formFileMultiple" accept="image/*" (change)="upload($event)" multiple>
-    <div *ngIf="upload_error" class="invalid-feedback">{{ upload_error }}</div>
+    @if (upload_error) {
+      <div class="invalid-feedback">{{ upload_error }}</div>
+    }
   </div>
 </form>

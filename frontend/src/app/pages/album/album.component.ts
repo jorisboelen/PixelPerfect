@@ -1,5 +1,5 @@
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbCarousel, NgbCarouselModule, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,7 @@ import { Album, NotificationLevel, Photo } from '../../interfaces';
 
 @Component({
     selector: 'app-album',
-    imports: [DatePipe, NavbarComponent, NgFor, NgIf, NgbCarouselModule, RouterLink],
+    imports: [DatePipe, NavbarComponent, NgbCarouselModule, RouterLink],
     templateUrl: './album.component.html',
     styleUrl: './album.component.css'
 })
