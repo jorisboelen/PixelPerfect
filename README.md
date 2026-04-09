@@ -1,3 +1,6 @@
+> [!WARNING]
+> This project has been deprecated. I have stopped development in favor of [Immich](https://immich.app).
+
 # ![PixelPerfect](frontend/src/assets/favicon-32x32.png "PixelPerfect") PixelPerfect
 [![GitHub Release](https://img.shields.io/github/v/release/jorisboelen/PixelPerfect?logo=github)](https://github.com/jorisboelen/PixelPerfect/releases/latest)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/jorisboelen/PixelPerfect/total?logo=github)](https://github.com/jorisboelen/PixelPerfect/releases)
